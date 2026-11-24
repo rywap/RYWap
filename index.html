@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Эдуард — сайты для бизнеса</title>
+<meta name="description" content="Делаю сайты для автосервисов, дизайнеров и специалистов: лендинги, сайты-портфолио, редизайн. Срок от 3 дней.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: уверенный молодой разработчик, честно и по делу
+   IDEA: витрина мастерской — работы стоят как экраны на стене
+   PICTURE: на первом экране — веер из трёх скриншотов настоящих демо, которые чуть наклонены
+   COLOUR and TYPE: графит #101114, тёплый оранжевый #ff7a3d, кремовый текст #f3eee8; Unbounded для заголовков, Inter для текста
+   LAYOUT: герой → обо мне → работы → услуги и цены → как работаю → контакты */
+:root{color-scheme:dark;--bg:#101114;--bg2:#17181c;--line:#2a2c32;--fg:#f3eee8;--mut:#a9a49c;--acc:#ff7a3d}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 Inter,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:Unbounded,Inter,sans-serif;margin:0;line-height:1.08;text-wrap:balance}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 max(5vw,16px)}
+.band{padding:clamp(64px,8vw,120px) 0}
+/* шапка */
+header{position:sticky;top:0;z-index:20;background:rgba(16,17,20,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700}
+.logo i{width:36px;height:36px;border-radius:10px;background:var(--acc);color:#1a0d05;display:grid;place-items:center;font:800 15px Unbounded,sans-serif;font-style:normal}
+.links{display:flex;gap:4px}
+.links a{text-decoration:none;font-size:15px;color:var(--mut);padding:10px 12px;border-radius:10px}
+.links a:hover{color:var(--fg);background:var(--bg2)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;border:0;cursor:pointer;font-family:inherit;transition:transform .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn.acc{background:var(--acc);color:#1a0d05}
+.btn.line{background:transparent;color:var(--fg);border:1.5px solid var(--line)}
+/* герой */
+.hero{padding:clamp(48px,7vw,96px) 0 clamp(64px,8vw,110px)}
+.hgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,5vw,72px);align-items:center}
+.tag{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:99px;padding:7px 14px;font-size:14px;color:var(--mut)}
+.tag b{width:8px;height:8px;border-radius:50%;background:#6ee7a8;display:inline-block}
+.hero h1{font-size:clamp(34px,4.4vw,58px);margin:22px 0 20px}
+.hero h1 span{color:var(--acc)}
+.hero p{font-size:18px;color:var(--mut);max-width:520px;margin:0 0 30px}
+.hbtns{display:flex;gap:12px;flex-wrap:wrap}
+.facts{display:flex;gap:32px;flex-wrap:wrap;margin-top:40px}
+.facts b{display:block;font:700 24px Unbounded,sans-serif}
+.facts span{font-size:14px;color:var(--mut)}
+.fan{position:relative;height:clamp(300px,34vw,460px)}
+.fan img{position:absolute;width:72%;border-radius:14px;border:1px solid var(--line);box-shadow:0 30px 60px -25px rgba(0,0,0,.8);transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+.fan .f1{left:0;top:14%;transform:rotate(-6deg)}
+.fan .f2{right:0;top:0;transform:rotate(5deg)}
+.fan .f3{left:14%;bottom:0;transform:rotate(-1deg);z-index:2}
+.fan:hover .f1{transform:rotate(-9deg) translateX(-12px)}.fan:hover .f2{transform:rotate(8deg) translateX(12px)}.fan:hover .f3{transform:translateY(-8px)}
+/* заголовки секций */
+.sh{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:40px}
+.sh h2{font-size:clamp(28px,3.4vw,44px)}
+.sh p{color:var(--mut);max-width:440px;margin:0}
+/* обо мне */
+.about{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(28px,5vw,72px);align-items:start}
+.about p{font-size:18px;color:#d9d3cb;margin:0 0 16px}
+.pts{display:grid;gap:12px}
+.pt{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:18px 20px}
+.pt b{display:block;margin-bottom:4px}
+.pt span{color:var(--mut);font-size:15px}
+/* работы */
+.works{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.work{background:var(--bg2);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
+.work .shot{aspect-ratio:16/10;overflow:hidden;border-bottom:1px solid var(--line);display:block;background:#000;cursor:zoom-in;border:0;padding:0;width:100%}
+.work .shot img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;transition:transform .5s}
+.work:hover .shot img{transform:scale(1.03)}
+.work .body{padding:22px;display:flex;flex-direction:column;gap:10px;flex:1}
+.work h3{font-size:20px}
+.work p{margin:0;color:var(--mut);font-size:15px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips span{font-size:12.5px;border:1px solid var(--line);border-radius:99px;padding:4px 10px;color:var(--mut)}
+.work .act{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto;padding-top:8px}
+.work .act a,.work .act button{font:600 14px Inter,sans-serif;color:var(--acc);background:none;border:0;padding:8px 0;cursor:pointer;text-decoration:none}
+.note{font-size:13px;color:var(--mut);margin-top:16px}
+/* услуги */
+.plans{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.plan{background:var(--bg2);border:1px solid var(--line);border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:10px}
+.plan.hot{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc) inset}
+.plan h3{font-size:18px}
+.plan .pr{font:700 26px Unbounded,sans-serif;white-space:nowrap}
+.plan .pr small{font:500 14px Inter,sans-serif;color:var(--mut)}
+.plan .tm{font-size:14px;color:var(--acc);font-weight:600}
+.plan ul{margin:0;padding-left:18px;color:var(--mut);font-size:15px;flex:1}
+/* шаги */
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.step{border-top:2px solid var(--acc);padding-top:18px}
+.step em{font-style:normal;font-size:13px;color:var(--acc);font-weight:700}
+.step b{display:block;font:700 18px Unbounded,sans-serif;margin:8px 0}
+.step p{margin:0;color:var(--mut);font-size:15px}
+/* контакты */
+.contact{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:start}
+.contact h2{font-size:clamp(30px,3.8vw,50px);margin-bottom:16px}
+.contact p{color:var(--mut);font-size:17px}
+.ways{display:grid;gap:10px;margin-top:24px}
+.ways a{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:16px 18px;text-decoration:none;font-weight:600}
+.ways a span{color:var(--mut);font-weight:500;font-size:14px}
+form{background:var(--bg2);border:1px solid var(--line);border-radius:20px;padding:clamp(20px,3vw,30px);display:grid;gap:14px}
+form label{display:grid;gap:6px;font-weight:600;font-size:15px}
+input,textarea{font:16px Inter,sans-serif;background:var(--bg);color:var(--fg);border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;min-height:48px}
+textarea{min-height:110px;resize:vertical}
+input:focus,textarea:focus{outline:none;border-color:var(--acc)}
+.ok{display:none;background:rgba(110,231,168,.12);color:#6ee7a8;border-radius:12px;padding:14px;font-weight:600}
+.ok.on{display:block}
+footer{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--mut);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+/* лайтбокс */
+#lb{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.88);display:none;overflow:auto;padding:60px 16px 30px}
+#lb.on{display:block}
+#lb img{display:block;max-width:min(1000px,100%);margin:0 auto;border-radius:12px}
+#lbx{position:fixed;top:14px;right:14px;min-height:44px;padding:0 18px;border-radius:99px;border:0;background:var(--fg);color:var(--bg);font-weight:700;cursor:pointer}
+@media (max-width:980px){.plans,.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.hgrid,.about,.contact,.works{grid-template-columns:minmax(0,1fr)}.links{display:none}.fan{height:300px}}
+@media (max-width:480px){.plans,.steps{grid-template-columns:minmax(0,1fr)}.nav .btn{padding:0 14px;font-size:14px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header><div class="wrap nav">
+ <a class="logo" href="#top"><i>Э</i>Эдуард</a>
+ <nav class="links" aria-label="Разделы"><a href="#about">Обо мне</a><a href="#works">Работы</a><a href="#prices">Цены</a><a href="#contact">Контакты</a></nav>
+ <a class="btn acc" href="#contact">Обсудить сайт</a>
+</div></header>
+
+<main id="top">
+<section class="hero"><div class="wrap hgrid">
+ <div>
+  <span class="tag"><b></b>Беру новые проекты</span>
+  <h1>Делаю сайты, которые <span>приводят клиентов</span></h1>
+  <p>Лендинги, сайты-портфолио и сайты для услуг: автосервисы, дизайнеры, специалисты. Первый пример — бесплатно, на ваших материалах.</p>
+  <div class="hbtns"><a class="btn acc" href="#contact">Обсудить проект</a><a class="btn line" href="#works">Смотреть работы</a></div>
+  <div class="facts"><div><b>3–7 дней</b><span>срок лендинга</span></div><div><b>Фикс</b><span>цена до начала работы</span></div><div><b>Пример</b><span>до оплаты</span></div></div>
+ </div>
+ <div class="fan" aria-hidden="true">
+  <img class="f1" src="img/torq-site.jpg" alt="">
+  <img class="f2" src="img/designer.jpg" alt="">
+  <img class="f3" src="img/manager.jpg" alt="">
+ </div>
+</div></section>
+
+<section class="band" id="about" style="padding-top:0"><div class="wrap about">
+ <div>
+  <div class="sh" style="margin-bottom:24px"><h2>Обо мне</h2></div>
+  <p>Меня зовут Эдуард, я веб-разработчик. Делаю сайты для малого бизнеса и специалистов: от структуры и текстов до запуска на вашем домене.</p>
+  <p>Сейчас набираю первых клиентов, поэтому работаю так: сначала бесплатно собираю пример из ваших материалов — вы смотрите и решаете. Платите только за то, что уже увидели.</p>
+ </div>
+ <div class="pts">
+  <div class="pt"><b>Понятная цена</b><span>Называю стоимость и срок до начала работы — без «посмотрим по ходу».</span></div>
+  <div class="pt"><b>Сайт под телефон</b><span>Каждую страницу проверяю на компьютере и смартфоне.</span></div>
+  <div class="pt"><b>Заявки в мессенджер</b><span>Форма отправляет заявку туда, где вам удобно отвечать.</span></div>
+ </div>
+</div></section>
+
+<section class="band" id="works" style="padding-top:0"><div class="wrap">
+ <div class="sh"><h2>Работы</h2><p>Демо-сайты для разных ниш. В демо автосервиса и менеджера названия и цифры вымышлены — на вашем сайте будут ваши.</p></div>
+ <div class="works">
+  <article class="work"><button class="shot" type="button" data-full="img/torq-site-full.jpg" aria-label="Открыть скриншот сайта автосервиса"><img src="img/torq-site.jpg" alt="Сайт автосервиса «ТОРК»" loading="lazy"></button><div class="body"><h3>Автосервис «ТОРК» — многостраничный сайт</h3><p>Главная, услуги, страница ремонта подвески, цены с вкладками, наши работы, контакты с записью.</p><div class="chips"><span>6 страниц</span><span>онлайн-запись</span><span>цены</span></div><div class="act"><button type="button" data-full="img/torq-site-full.jpg">Смотреть целиком →</button></div></div></article>
+  <article class="work"><a class="shot" href="designer/" aria-label="Открыть 3D-витрину дизайнера"><img src="img/designer.jpg" alt="3D-витрина дизайнера инфографики" loading="lazy"></a><div class="body"><h3>3D-витрина дизайнера инфографики</h3><p>Карточки листаются по дуге, фон заливается цветом работы, карточка едет вниз по странице и переворачивается: «до/после», цены, сетка работ и калькулятор.</p><div class="chips"><span>3D-эффекты</span><span>до/после</span><span>калькулятор</span></div><p style="font-size:13px">Работы на сайте — дизайнера Анастасии, показаны с её разрешения · <a href="https://t.me/designInfoPolunina" style="color:var(--acc)">её канал</a></p><div class="act"><a href="designer/">Открыть демо →</a></div></div></article>
+  <article class="work"><a class="shot" href="manager/" aria-label="Открыть демо сайта менеджера маркетплейсов"><img src="img/manager.jpg" alt="Сайт менеджера маркетплейсов" loading="lazy"></a><div class="body"><h3>Менеджер маркетплейсов</h3><p>Кейсы «было → стало», тарифы, калькулятор «сколько вы переплачиваете за рекламу», заявка на аудит.</p><div class="chips"><span>калькулятор</span><span>кейсы</span><span>тарифы</span></div><div class="act"><a href="manager/">Открыть демо →</a></div></div></article>
+  <article class="work"><a class="shot" href="manager-dark/" aria-label="Открыть тёмное демо"><img src="img/manager-dark.jpg" alt="Тёмный сайт менеджера маркетплейсов" loading="lazy"></a><div class="body"><h3>Менеджер маркетплейсов — тёмный</h3><p>Эффектный вариант: огромный заголовок, ленты метрик при прокрутке, кейсы стопкой.</p><div class="chips"><span>анимации</span><span>прокрутка</span><span>тёмный стиль</span></div><div class="act"><a href="manager-dark/">Открыть демо →</a></div></div></article>
+ </div>
+</div></section>
+
+<section class="band" id="prices" style="padding-top:0"><div class="wrap">
+ <div class="sh"><h2>Услуги и цены</h2><p>Отдельно оплачиваются только домен и хостинг — около 2 000 ₽ в год, оформляются на вас.</p></div>
+ <div class="plans">
+  <div class="plan"><h3>Сайт-портфолио</h3><div class="pr">15 000 ₽</div><div class="tm">3–5 дней</div><ul><li>Работы с фильтром</li><li>Цены и этапы работы</li><li>Заявки в мессенджер</li></ul></div>
+  <div class="plan hot"><h3>Лендинг</h3><div class="pr">от 15 000 ₽</div><div class="tm">3–7 дней</div><ul><li>Одна продающая страница</li><li>Тексты и структура</li><li>Форма заявки</li></ul></div>
+  <div class="plan"><h3>Сайт для услуг</h3><div class="pr">от 50 000 ₽</div><div class="tm">2–3 недели</div><ul><li>6–8 страниц</li><li>Онлайн-запись</li><li>Яндекс Метрика и базовое SEO</li></ul></div>
+  <div class="plan"><h3>Карточки на картах</h3><div class="pr">от 3 000 ₽</div><div class="tm">1–3 дня</div><ul><li>Яндекс Карты и 2ГИС</li><li>Фото, услуги, цены</li><li>Описание и акции</li></ul></div>
+ </div>
+</div></section>
+
+<section class="band" style="padding-top:0"><div class="wrap">
+ <div class="sh"><h2>Как я работаю</h2></div>
+ <div class="steps">
+  <div class="step"><em>Шаг 1</em><b>Знакомство</b><p>Вы рассказываете о бизнесе и присылаете материалы.</p></div>
+  <div class="step"><em>Шаг 2</em><b>Бесплатный пример</b><p>Собираю первый вариант — вы видите результат до оплаты.</p></div>
+  <div class="step"><em>Шаг 3</em><b>Доработка</b><p>Предоплата 50%, вношу правки, проверяю на телефоне.</p></div>
+  <div class="step"><em>Шаг 4</em><b>Запуск</b><p>Подключаю домен, остаток оплаты — после запуска.</p></div>
+ </div>
+</div></section>
+
+<section class="band" id="contact" style="padding-top:0"><div class="wrap contact">
+ <div>
+  <h2>Обсудим ваш сайт?</h2>
+  <p>Напишите пару слов о бизнесе — отвечу с идеей и примерной ценой в течение дня.</p>
+  <div class="ways">
+   <a href="https://kwork.ru/user/rywap0">Kwork <span>мой профиль</span></a>
+   <a href="https://t.me/Roxrexxls">Telegram <span>@Roxrexxls</span></a>
+  </div>
+ </div>
+ <form id="form" novalidate>
+  <label>Имя<input type="text" id="fn" autocomplete="name" required></label>
+  <label>Как с вами связаться<input type="text" id="fc" required></label>
+  <label>Расскажите о проекте<textarea id="fm"></textarea></label>
+  <button class="btn acc" type="submit">Отправить</button>
+  <div class="ok" id="ok" role="status">Спасибо! Сейчас форма тестовая — напишите мне напрямую в Telegram или на Kwork.</div>
+ </form>
+</div></section>
+</main>
+<footer><div class="wrap"><span>© Эдуард · сайты для бизнеса</span><a href="#top">Наверх ↑</a></div></footer>
+<div id="lb" role="dialog" aria-modal="true" aria-label="Скриншот сайта"><button id="lbx" type="button">Закрыть</button><img id="lbi" alt="Скриншот сайта целиком"></div>
+<script>
+{
+const $=s=>document.querySelector(s),lb=$('#lb');
+document.querySelectorAll('[data-full]').forEach(b=>b.addEventListener('click',()=>{$('#lbi').src=b.dataset.full;lb.classList.add('on');lb.scrollTop=0;$('#lbx').focus()}));
+const close=()=>lb.classList.remove('on');$('#lbx').onclick=close;lb.addEventListener('click',e=>{if(e.target===lb)close()});addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+$('#form').addEventListener('submit',e=>{e.preventDefault();let bad=false;[$('#fn'),$('#fc')].forEach(f=>{const em=!f.value.trim();f.style.borderColor=em?'#ff6b6b':'';if(em)bad=true});if(!bad)$('#ok').classList.add('on')});
+}
+</script>
+</body>
+</html>

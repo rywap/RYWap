@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Менеджер маркетплейсов — демо</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: деловой и уверенный, как хороший отчёт для селлера
+   IDEA: сайт ведёт себя как еженедельный отчёт по магазину — цифры «было → стало»
+   PICTURE: живой дашборд кейса с графиком выручки на первом экране
+   COLOUR and TYPE: глубокий зелёный #00463c, белый, лаймово-белый #e6f5c8, коралл #ff6f59 для «потерь»; Inter Tight + Inter
+   LAYOUT: дашборд-герой → кейсы → услуги → калькулятор потерь → как работаю → вопросы → заявка */
+:root{color-scheme:light;--g:#00463c;--g2:#0b5a4d;--lime:#e6f5c8;--lime2:#c9ec8f;--coral:#ff6f59;--ink:#10201c;--mut:#4d5c58;--bg:#ffffff;--soft:#f3f6f4;--line:#dfe6e3}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:76px;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:'Inter Tight',Inter,sans-serif;line-height:1.05;margin:0;text-wrap:balance}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 max(5vw,16px)}
+.band{padding:clamp(56px,7vw,104px) 0}
+.demo{background:#10201c;color:#e6f5c8;font-size:13px;text-align:center;padding:7px 12px}
+/* шапка */
+header{position:sticky;top:0;z-index:20;background:var(--g);color:#fff;border-bottom:1px solid rgba(255,255,255,.12)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700}
+.logo i{width:34px;height:34px;border-radius:10px;background:var(--lime);color:var(--g);display:grid;place-items:center;font:800 15px 'Inter Tight',sans-serif;font-style:normal}
+.logo small{display:block;font-weight:500;opacity:.75;font-size:12.5px}
+.links{display:flex;gap:4px;flex-wrap:wrap}
+.links a{text-decoration:none;font-size:15px;padding:10px 12px;border-radius:10px;opacity:.9}
+.links a:hover{background:rgba(255,255,255,.1);opacity:1}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:12px;font-weight:700;text-decoration:none;border:0;cursor:pointer;font-size:16px;font-family:inherit}
+.btn.lime{background:var(--lime2);color:var(--g)}
+.btn.ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.5)}
+.btn.dark{background:var(--g);color:#fff}
+/* герой */
+.hero{background:var(--g);color:#fff;padding:clamp(40px,6vw,84px) 0 clamp(56px,7vw,96px)}
+.hgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(28px,4vw,64px);align-items:center}
+.kicker{display:inline-flex;gap:8px;align-items:center;background:rgba(230,245,200,.12);color:var(--lime);padding:7px 12px;border-radius:99px;font-size:14px;font-weight:600}
+.kicker b{width:8px;height:8px;border-radius:50%;background:var(--lime2);display:inline-block}
+.hero h1{font-size:clamp(36px,4.6vw,56px);margin:20px 0 18px}
+.hero h1 em{font-style:normal;color:var(--lime2)}
+.hero p{font-size:18px;color:#d3e6df;max-width:520px;margin:0 0 28px}
+.hbtns{display:flex;gap:12px;flex-wrap:wrap}
+.trust{display:flex;gap:28px;flex-wrap:wrap;margin-top:34px;color:#cfe3dc;font-size:14px}
+.trust b{display:block;color:#fff;font:700 26px 'Inter Tight',sans-serif}
+/* дашборд */
+.dash{background:#fff;color:var(--ink);border-radius:22px;padding:22px;box-shadow:0 30px 60px -30px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.08)}
+.dhead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.dhead h3{font-size:18px}
+.dhead small{color:var(--mut);font-size:13px}
+.seg{display:flex;background:var(--soft);border-radius:10px;padding:3px}
+.seg button{border:0;background:transparent;font:600 13px Inter,sans-serif;padding:8px 12px;border-radius:8px;cursor:pointer;color:var(--mut);min-height:36px}
+.seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.fig{position:relative;height:230px;margin:14px 0 6px}
+.fig svg{position:absolute;inset:0;width:100%;height:100%}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.kpi{background:var(--soft);border-radius:14px;padding:12px 14px}
+.kpi span{font-size:12.5px;color:var(--mut)}
+.kpi b{display:block;font:700 22px 'Inter Tight',sans-serif;white-space:nowrap}
+.kpi i{font-style:normal;font-size:13px;font-weight:600;color:#1f7a43;white-space:nowrap}
+.kpi i.dn{color:#1f7a43}
+.note{font-size:12.5px;color:var(--mut);margin-top:10px}
+/* площадки */
+.strip{background:var(--lime);color:var(--g)}
+.strip .wrap{display:flex;gap:clamp(18px,4vw,56px);flex-wrap:wrap;justify-content:center;padding-top:18px;padding-bottom:18px;font:700 18px 'Inter Tight',sans-serif}
+/* заголовки секций */
+.sh{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:34px}
+.sh h2{font-size:clamp(32px,3.6vw,46px);max-width:700px}
+.sh p{color:var(--mut);max-width:420px;margin:0}
+/* кейсы */
+.cases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.case{border:1px solid var(--line);border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:14px;background:#fff}
+.case .cat{font-size:13px;font-weight:600;color:var(--g2);background:var(--lime);align-self:flex-start;padding:5px 10px;border-radius:99px}
+.case h3{font-size:22px}
+.ba{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px;background:var(--soft);border-radius:14px;padding:12px 14px}
+.ba div span{display:block;font-size:12px;color:var(--mut)}
+.ba div b{font:700 22px 'Inter Tight',sans-serif;white-space:nowrap}
+.ba .to b{color:var(--g)}
+.ba svg{color:var(--mut)}
+.bars{display:flex;align-items:flex-end;gap:5px;height:64px}
+.bars i{flex:1;background:var(--lime2);border-radius:4px 4px 0 0}
+.bars i:last-child{background:var(--g)}
+.case ul{margin:0;padding-left:18px;color:var(--mut);font-size:15px}
+.case li+li{margin-top:4px}
+/* услуги */
+.soft{background:var(--soft)}
+.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.plan{background:#fff;border-radius:20px;padding:26px;display:flex;flex-direction:column;gap:12px;border:1px solid var(--line)}
+.plan.hot{background:var(--g);color:#fff;border-color:var(--g)}
+.plan h3{font-size:22px}
+.plan .pr{font:800 34px 'Inter Tight',sans-serif;white-space:nowrap}
+.plan .pr small{font:500 15px Inter,sans-serif;opacity:.75}
+.plan ul{margin:0;padding-left:18px;font-size:15px;flex:1}
+.plan.hot ul{color:#d3e6df}
+.plan:not(.hot) ul{color:var(--mut)}
+.plan .tag{align-self:flex-start;background:var(--lime2);color:var(--g);font-size:13px;font-weight:700;padding:5px 10px;border-radius:99px}
+.small{font-size:13px;color:var(--mut);margin-top:14px}
+/* калькулятор */
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,4vw,56px);align-items:stretch}
+.inputs{display:flex;flex-direction:column;gap:22px}
+.field label{display:flex;justify-content:space-between;gap:12px;font-weight:600;margin-bottom:8px}
+.field output{font:700 18px 'Inter Tight',sans-serif;white-space:nowrap}
+input[type=range]{width:100%;accent-color:var(--g);height:28px}
+.res{background:var(--g);color:#fff;border-radius:22px;padding:clamp(24px,3vw,36px);display:flex;flex-direction:column;gap:14px;justify-content:center}
+.res span{color:#cfe3dc}
+.res .big{font:800 clamp(44px,6vw,72px) 'Inter Tight',sans-serif;line-height:1;color:var(--lime2);white-space:nowrap}
+.res .yr{font-size:18px}
+.res .yr b{white-space:nowrap}
+.meter{height:12px;border-radius:99px;background:rgba(255,255,255,.14);overflow:hidden;display:flex}
+.meter i{display:block;height:100%}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:#cfe3dc}
+.legend b{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+/* шаги */
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;counter-reset:s}
+.step{border-top:3px solid var(--g);padding-top:18px}
+.step b{display:block;font:700 20px 'Inter Tight',sans-serif;margin-bottom:6px}
+.step p{margin:0;color:var(--mut)}
+.step em{font-style:normal;font-size:13px;font-weight:700;color:var(--g2);display:block;margin-bottom:8px}
+/* отзывы */
+.rev{border:2px dashed var(--line);border-radius:20px;padding:28px;text-align:center;color:var(--mut)}
+/* вопросы */
+.faq{display:grid;gap:10px;max-width:860px}
+details{background:#fff;border:1px solid var(--line);border-radius:16px;padding:0 20px}
+summary{cursor:pointer;font-weight:700;font-size:17px;padding:18px 0;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::after{content:'+';font-size:22px;line-height:1;color:var(--g)}
+details[open] summary::after{content:'−'}
+details p{margin:0 0 18px;color:var(--mut)}
+/* заявка */
+.lead{background:var(--g);color:#fff}
+.lgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:start}
+.lead h2{font-size:clamp(32px,3.6vw,46px);margin-bottom:16px}
+.lead p{color:#d3e6df;font-size:17px}
+form{background:#fff;color:var(--ink);border-radius:22px;padding:clamp(20px,3vw,32px);display:grid;gap:14px}
+form label{display:grid;gap:6px;font-weight:600;font-size:15px}
+input[type=text],select{font:16px Inter,sans-serif;min-height:48px;border:1.5px solid var(--line);border-radius:12px;padding:0 14px;background:#fff;color:var(--ink)}
+input[type=text]:focus,select:focus{border-color:var(--g);outline:none;box-shadow:0 0 0 3px rgba(0,70,60,.15)}
+.ok{display:none;background:var(--lime);color:var(--g);border-radius:12px;padding:14px;font-weight:600}
+.ok.on{display:block}
+footer{padding:28px 0 36px;color:var(--mut);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media (max-width:900px){.cases,.plans{grid-template-columns:minmax(0,1fr)}.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.hgrid,.calc,.lgrid{grid-template-columns:minmax(0,1fr)}.links{display:none}.kpi b{font-size:18px}.fig{height:190px}}
+@media (max-width:480px){.steps{grid-template-columns:minmax(0,1fr)}.kpis{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.kpis .kpi:last-child{grid-column:1/-1}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="demo">Демо-пример сайта: имя, цифры, кейсы и цены вымышлены — на вашем сайте будут ваши</div>
+<header>
+ <div class="wrap nav">
+  <a class="logo" href="#top"><i>ОС</i><span>Ольга Северова<small>менеджер Wildberries и Ozon</small></span></a>
+  <nav class="links" aria-label="Разделы"><a href="#cases">Кейсы</a><a href="#plans">Услуги</a><a href="#calc">Калькулятор</a><a href="#how">Как работаю</a><a href="#faq">Вопросы</a></nav>
+  <a class="btn lime" href="#lead">Бесплатный аудит</a>
+ </div>
+</header>
+
+<main id="top">
+<section class="hero">
+ <div class="wrap hgrid">
+  <div>
+   <span class="kicker"><b></b>Беру 2 новых магазина в декабре</span>
+   <h1>Вывожу магазины на Wildberries и Ozon в <em>стабильную прибыль</em></h1>
+   <p>Беру на себя кабинет целиком: аналитику, рекламу, SEO, поставки и отчёты. Вы видите цифры каждую неделю и занимаетесь товаром, а не операционкой.</p>
+   <div class="hbtns"><a class="btn lime" href="#lead">Получить бесплатный аудит</a><a class="btn ghost" href="#cases">Смотреть кейсы</a></div>
+   <div class="trust"><div><b>5 лет</b>на маркетплейсах</div><div><b>40+</b>магазинов</div><div><b>По договору</b>фикс + % от роста</div></div>
+  </div>
+  <div class="dash" aria-label="Пример кейса: рост выручки магазина">
+   <div class="dhead">
+    <div><h3>Магазин товаров для дома</h3><small>Пример кейса · выручка по месяцам, млн ₽</small></div>
+    <div class="seg" role="group" aria-label="Показатель"><button type="button" class="on" data-m="rev">Выручка</button><button type="button" data-m="drr">ДРР</button></div>
+   </div>
+   <div class="fig" id="fig"><svg id="chart" role="img" aria-label="График показателя по месяцам"></svg></div>
+   <div class="kpis">
+    <div class="kpi"><span>Выручка в месяц</span><b>6,8 млн ₽</b><i>было 1,2 млн</i></div>
+    <div class="kpi"><span>ДРР</span><b>9%</b><i class="dn">было 24%</i></div>
+    <div class="kpi"><span>Заказы</span><b>×4,1</b><i>за 6 месяцев</i></div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<div class="strip"><div class="wrap"><span>Wildberries</span><span>Ozon</span><span>Яндекс Маркет</span></div></div>
+
+<section class="band" id="cases">
+ <div class="wrap">
+  <div class="sh"><h2>Кейсы: что было и что стало</h2><p>Каждый кейс — со скриншотами из кабинета. Здесь будут ваши реальные цифры и ниши.</p></div>
+  <div class="cases" id="caseList"></div>
+ </div>
+</section>
+
+<section class="band soft" id="plans">
+ <div class="wrap">
+  <div class="sh"><h2>Услуги и стоимость</h2><p>Начинаем с аудита: вы сразу видите, где магазин теряет деньги, и решаете, продолжать ли.</p></div>
+  <div class="plans">
+   <div class="plan"><h3>Аудит кабинета</h3><div class="pr">7 000 ₽ <small>разово</small></div><ul><li>Юнит-экономика по каждому артикулу</li><li>Разбор рекламы и ДРР</li><li>SEO и конверсия карточек</li><li>План роста на 3 месяца</li></ul><a class="btn dark" href="#lead">Заказать аудит</a></div>
+   <div class="plan hot"><span class="tag">Чаще выбирают</span><h3>Ведение магазина</h3><div class="pr">от 35 000 ₽ <small>/ мес + % от роста</small></div><ul><li>Ежедневный контроль рекламы</li><li>Цены, акции, остатки и поставки</li><li>Отзывы и вопросы покупателей</li><li>Отчёт каждую неделю</li></ul><a class="btn lime" href="#lead">Обсудить ведение</a></div>
+   <div class="plan"><h3>Запуск с нуля</h3><div class="pr">40 000 ₽ <small>за запуск</small></div><ul><li>Анализ ниши и конкурентов</li><li>Карточки, SEO и ТЗ на инфографику</li><li>Первые поставки</li><li>Старт рекламы</li></ul><a class="btn dark" href="#lead">Запустить магазин</a></div>
+  </div>
+  <p class="small">Цены в демо — для примера. На вашем сайте будут ваши тарифы.</p>
+ </div>
+</section>
+
+<section class="band" id="calc">
+ <div class="wrap">
+  <div class="sh"><h2>Сколько вы переплачиваете за рекламу</h2><p>Подвиньте ползунки: калькулятор покажет, сколько остаётся у вас, если снизить ДРР до нормы.</p></div>
+  <div class="calc">
+   <div class="inputs">
+    <div class="field"><label for="rv">Выручка в месяц <output id="rvO"></output></label><input type="range" id="rv" min="300000" max="20000000" step="100000" value="3000000"></div>
+    <div class="field"><label for="dr">Ваш ДРР сейчас <output id="drO"></output></label><input type="range" id="dr" min="5" max="45" step="1" value="22"></div>
+    <div class="field"><label for="tg">ДРР после настройки <output id="tgO"></output></label><input type="range" id="tg" min="4" max="20" step="1" value="10"></div>
+   </div>
+   <div class="res" aria-live="polite">
+    <span>Можно сэкономить на рекламе</span>
+    <div class="big" id="save"></div>
+    <div class="yr">в месяц — это <b id="year"></b> за год</div>
+    <div class="meter" aria-hidden="true"><i id="mKeep" style="background:var(--lime2)"></i><i id="mLose" style="background:var(--coral)"></i></div>
+    <div class="legend"><span><b style="background:var(--lime2)"></b>Нужный бюджет</span><span><b style="background:var(--coral)"></b>Лишние расходы</span></div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="band soft" id="how">
+ <div class="wrap">
+  <div class="sh"><h2>Как проходит работа</h2></div>
+  <div class="steps">
+   <div class="step"><em>День 1</em><b>Знакомство</b><p>Созвон 20 минут: товар, цели, текущие цифры.</p></div>
+   <div class="step"><em>Дни 2–4</em><b>Аудит</b><p>Разбираю кабинет и показываю, где теряются деньги.</p></div>
+   <div class="step"><em>Неделя 1</em><b>Договор и план</b><p>Фиксируем задачи, цели и оплату в договоре.</p></div>
+   <div class="step"><em>Каждую неделю</em><b>Работа и отчёт</b><p>Веду кабинет и присылаю отчёт с цифрами.</p></div>
+  </div>
+ </div>
+</section>
+
+<section class="band">
+ <div class="wrap">
+  <div class="sh"><h2>Отзывы селлеров</h2></div>
+  <div class="rev">Здесь будут скриншоты отзывов ваших клиентов — с их разрешения.</div>
+ </div>
+</section>
+
+<section class="band soft" id="faq">
+ <div class="wrap">
+  <div class="sh"><h2>Частые вопросы</h2></div>
+  <div class="faq">
+   <details><summary>Работаете по договору?</summary><p>Да. В договоре фиксируем задачи, сроки, оплату и порядок доступа к кабинету.</p></details>
+   <details><summary>Какой доступ к кабинету нужен?</summary><p>Отдельный доступ сотрудника с нужными правами. Пароль от аккаунта не нужен, доступ можно отозвать в любой момент.</p></details>
+   <details><summary>Как я узнаю, что работа идёт?</summary><p>Каждую неделю вы получаете отчёт: выручка, заказы, ДРР, остатки и что сделано за неделю.</p></details>
+   <details><summary>Когда будет результат?</summary><p>Первые изменения в рекламе видны через 1–2 недели, рост выручки — обычно через 1–3 месяца. Точный прогноз даю после аудита.</p></details>
+  </div>
+ </div>
+</section>
+
+<section class="band lead" id="lead">
+ <div class="wrap lgrid">
+  <div>
+   <h2>Бесплатный аудит вашего магазина</h2>
+   <p>Оставьте контакт — за 2–3 дня покажу, где магазин теряет деньги и что можно улучшить уже в этом месяце. Без обязательств.</p>
+  </div>
+  <form id="form" novalidate>
+   <label>Имя<input type="text" id="fName" autocomplete="name" required></label>
+   <label>Telegram или телефон<input type="text" id="fTg" required></label>
+   <label>Маркетплейс<select id="fMp"><option>Wildberries</option><option>Ozon</option><option>Оба</option><option>Яндекс Маркет</option></select></label>
+   <label>Выручка в месяц<select id="fRv"><option>до 500 тыс. ₽</option><option>500 тыс. – 3 млн ₽</option><option>3–10 млн ₽</option><option>больше 10 млн ₽</option></select></label>
+   <button class="btn dark" type="submit">Получить аудит</button>
+   <div class="ok" id="ok" role="status">Это демо: заявка никуда не отправляется. На вашем сайте она сразу придёт вам в Telegram.</div>
+  </form>
+ </div>
+</section>
+</main>
+<footer><div class="wrap"><span>© Ольга Северова · менеджер маркетплейсов (демо)</span><a href="#top">Наверх ↑</a></div></footer>
+
+<script>
+{
+const $=s=>document.querySelector(s);
+const fmt=n=>Math.round(n).toLocaleString('ru-RU').replace(/ /g,' ');
+const money=n=>n>=1e6?(n/1e6).toFixed(n>=1e7?0:1).replace('.',',')+' млн ₽':fmt(n)+' ₽';
+/* график кейса */
+const months=['Июн','Июл','Авг','Сен','Окт','Ноя'];
+const DATA={rev:{v:[1.2,1.9,2.8,3.9,5.4,6.8],unit:' млн',good:'up'},drr:{v:[24,19,15,12,10,9],unit:'%',good:'down'}};
+let metric='rev';const s=$('#chart');
+function draw(){const W=s.clientWidth,H=s.clientHeight;if(!W)return;const d=DATA[metric],v=d.v,small=W<420;
+ const pl=small?8:34,pr=10,pt=18,pb=26,mx=Math.max(...v)*1.15,iw=W-pl-pr,ih=H-pt-pb;
+ const x=i=>pl+i*iw/(v.length-1),y=n=>pt+ih-(n/mx)*ih;
+ let g='';const ticks=4;for(let t=0;t<=ticks;t++){const val=mx*t/ticks,yy=y(val);g+=`<line x1="${pl}" x2="${W-pr}" y1="${yy}" y2="${yy}" stroke="#e7ecea"/>`;if(!small)g+=`<text x="${pl-6}" y="${yy+4}" text-anchor="end" font-size="11" fill="#6b7a76">${metric==='rev'?val.toFixed(0):Math.round(val)}</text>`}
+ const pts=v.map((n,i)=>`${x(i)},${y(n)}`).join(' ');
+ const area=`M${x(0)},${y(v[0])} `+v.map((n,i)=>`L${x(i)},${y(n)}`).join(' ')+` L${x(v.length-1)},${pt+ih} L${x(0)},${pt+ih}Z`;
+ const col=metric==='rev'?'#00463c':'#ff6f59';
+ let labels=months.map((m,i)=>`<text x="${x(i)}" y="${H-6}" text-anchor="middle" font-size="11" fill="#6b7a76">${m}</text>`).join('');
+ const last=v.length-1,lx=x(last),ly=y(v[last]);
+ const tag=`${String(v[last]).replace('.',',')}${d.unit}`;
+ s.innerHTML=`<defs><linearGradient id="ga" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity=".22"/><stop offset="1" stop-color="${col}" stop-opacity="0"/></linearGradient></defs>${g}<path d="${area}" fill="url(#ga)"/><polyline points="${pts}" fill="none" stroke="${col}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" class="ln"/>${v.map((n,i)=>`<circle cx="${x(i)}" cy="${y(n)}" r="${i===last?5:3}" fill="#fff" stroke="${col}" stroke-width="2"/>`).join('')}<g transform="translate(${Math.min(lx,W-pr-70)},${Math.max(ly-34,4)})"><rect width="64" height="24" rx="7" fill="${col}"/><text x="32" y="16" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">${tag}</text></g>${labels}`;
+ const ln=s.querySelector('.ln');if(ln&&!matchMedia('(prefers-reduced-motion: reduce)').matches){const L=ln.getTotalLength();ln.style.strokeDasharray=L;ln.style.strokeDashoffset=L;ln.getBoundingClientRect();ln.style.transition='stroke-dashoffset 1.1s ease';ln.style.strokeDashoffset=0}}
+const chartRO=new ResizeObserver(draw);chartRO.observe(s);
+document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{metric=b.dataset.m;document.querySelectorAll('.seg button').forEach(x=>x.classList.toggle('on',x===b));draw()}));
+/* кейсы */
+const CASES=[
+ {cat:'Одежда · Wildberries',t:'Женская одежда',a:['Выручка','1,5 млн ₽'],b:['Выручка','6,2 млн ₽'],bars:[1.5,2.1,3.2,4.4,5.3,6.2],p:'за 5 месяцев',l:['Пересобрала SEO по 60 артикулам','Отключила рекламу в минус','Вывела 3 товара в топ категории']},
+ {cat:'Товары для дома · Ozon',t:'Посуда и кухня',a:['ДРР','28%'],b:['ДРР','8%'],bars:[28,22,17,13,10,8],p:'за 3 месяца',l:['Перестроила рекламные кампании','Подняла конверсию карточек','Убрала товары с отрицательной маржой'],down:true},
+ {cat:'Запуск · WB + Ozon',t:'Новый бренд косметики',a:['Старт','0 ₽'],b:['Выручка','2,4 млн ₽'],bars:[.1,.5,1.1,1.6,2,2.4],p:'за 4 месяца',l:['Анализ ниши и цен конкурентов','Карточки и ТЗ на инфографику','Первые поставки и старт рекламы']}];
+$('#caseList').innerHTML=CASES.map(c=>{const mx=Math.max(...c.bars);return `<article class="case"><span class="cat">${c.cat}</span><h3>${c.t}</h3>
+ <div class="ba"><div><span>${c.a[0]}</span><b>${c.a[1]}</b></div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg><div class="to"><span>${c.b[0]} ${c.p}</span><b>${c.b[1]}</b></div></div>
+ <div class="bars" aria-hidden="true">${c.bars.map(v=>`<i style="height:${Math.max(6,v/mx*100)}%;${c.down?'background:'+(v===c.bars[c.bars.length-1]?'#00463c':'#ffc2b8'):''}"></i>`).join('')}</div>
+ <ul>${c.l.map(x=>`<li>${x}</li>`).join('')}</ul></article>`}).join('');
+/* калькулятор */
+const rv=$('#rv'),dr=$('#dr'),tg=$('#tg');
+function calc(){let R=+rv.value,D=+dr.value,T=+tg.value;if(T>D){T=D;tg.value=T}
+ $('#rvO').textContent=money(R);$('#drO').textContent=D+'%';$('#tgO').textContent=T+'%';
+ const save=R*(D-T)/100;$('#save').textContent=money(save);$('#year').textContent=money(save*12);
+ const keep=D?T/D*100:100;$('#mKeep').style.width=keep+'%';$('#mLose').style.width=(100-keep)+'%'}
+[rv,dr,tg].forEach(i=>i.addEventListener('input',calc));calc();
+/* заявка */
+$('#form').addEventListener('submit',e=>{e.preventDefault();const n=$('#fName'),t=$('#fTg');let bad=false;
+ [n,t].forEach(f=>{const empty=!f.value.trim();f.style.borderColor=empty?'#ff6f59':'';if(empty)bad=true});
+ if(bad){(n.value.trim()?t:n).focus();return}$('#ok').classList.add('on')});
+}
+</script>
+</body>
+</html>

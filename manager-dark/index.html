@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Оля — менеджер маркетплейсов</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* VOICE: дерзкое тёмное портфолио специалиста, крупно и уверенно
+   IDEA: витрина из живых метрик магазина — цифры вместо картинок
+   PICTURE: огромное приветствие и парящий телефон с отчётом по продажам, который тянется за курсором
+   COLOUR and TYPE: #0C0C0C, светло-стальной #D7E2EA, градиент стали в заголовках, пурпурно-оранжевая кнопка; Montserrat 300–900
+   LAYOUT: герой → ленты метрик → обо мне → белые услуги → кейсы стопкой → контакт */
+:root{color-scheme:dark;--bg:#0C0C0C;--fg:#D7E2EA;--mut:rgba(215,226,234,.6)}
+*{box-sizing:border-box;margin:0;padding:0;min-width:0}
+html,body{background:var(--bg);color:var(--fg);font-family:Montserrat,system-ui,sans-serif}
+body{overflow-x:clip}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid #fff;outline-offset:4px}
+.hh{background:linear-gradient(180deg,#646973 0%,#BBCCD7 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.demo{font-size:12px;text-align:center;padding:6px 12px;color:var(--mut);border-bottom:1px solid rgba(215,226,234,.12)}
+.fade{opacity:0;transform:translate(var(--fx,0),var(--fy,30px));transition:opacity var(--fd,.7s) cubic-bezier(.25,.1,.25,1) var(--dl,0s),transform var(--fd,.7s) cubic-bezier(.25,.1,.25,1) var(--dl,0s)}
+.fade.in{opacity:1;transform:none}
+/* герой */
+.hero{height:100svh;min-height:600px;display:flex;flex-direction:column;position:relative;overflow-x:clip}
+nav{display:flex;justify-content:space-between;padding:24px clamp(24px,4vw,40px) 0;text-transform:uppercase;font-weight:500;letter-spacing:.06em;font-size:clamp(.8rem,1.3vw,1.3rem)}
+nav a{transition:opacity .2s;padding:8px 0}nav a:hover{opacity:.7}
+.hwrap{overflow:hidden;margin-top:clamp(8px,1vw,16px)}
+.hero h1{font-size:10vw;font-weight:900;text-transform:uppercase;letter-spacing:-.03em;line-height:.9;white-space:nowrap;text-align:center;font-size:var(--hs,13vw)}
+.hbot{margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end;gap:16px;padding:0 clamp(24px,4vw,40px) clamp(28px,3vw,40px);position:relative;z-index:20}
+.hbot p{max-width:clamp(160px,22vw,290px);font-weight:300;text-transform:uppercase;letter-spacing:.03em;line-height:1.3;font-size:clamp(.75rem,1.3vw,1.35rem)}
+.cbtn{display:inline-flex;align-items:center;justify-content:center;border-radius:99px;color:#fff;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:clamp(.72rem,1vw,1rem);padding:clamp(12px,1.2vw,16px) clamp(26px,3vw,48px);background:linear-gradient(123deg,#18011F 7%,#B600A8 37%,#7621B0 72%,#BE4C00 100%);box-shadow:0 4px 4px rgba(181,1,167,.25),4px 4px 12px #7721B1 inset;outline:2px solid #fff;outline-offset:-3px;white-space:nowrap;transition:transform .2s}
+.cbtn:hover{transform:translateY(-2px)}
+/* телефон-отчёт */
+.portrait{position:absolute;left:50%;bottom:0;transform:translateX(-50%);z-index:10;width:clamp(230px,30vw,420px)}
+.mag{will-change:transform}
+.phone{aspect-ratio:9/16.5;border-radius:44px 44px 0 0;background:linear-gradient(160deg,#20232a,#0f1013 60%);border:1.5px solid rgba(215,226,234,.25);border-bottom:0;padding:18px 16px 0;box-shadow:0 -30px 80px -20px rgba(182,0,168,.35),0 0 0 8px #15161a;transform:perspective(1200px) rotateX(8deg) rotateZ(-4deg);transform-origin:50% 100%;display:flex;flex-direction:column;gap:12px;overflow:hidden}
+.notch{width:34%;height:20px;border-radius:12px;background:#000;align-self:center}
+.ph-h{display:flex;justify-content:space-between;font-size:12px;color:var(--mut)}
+.ph-big{font-weight:800;font-size:clamp(26px,3vw,40px);color:#fff;line-height:1}
+.ph-big small{display:block;font-weight:500;font-size:12px;color:#7be0a5;margin-top:6px}
+.ph-chart{height:clamp(90px,10vw,140px)}
+.ph-chart svg{width:100%;height:100%}
+.ph-rows{display:grid;gap:8px}
+.ph-row{display:flex;justify-content:space-between;align-items:center;background:rgba(215,226,234,.06);border-radius:14px;padding:10px 12px;font-size:12.5px}
+.ph-row b{color:#fff;font-weight:700}
+/* ленты */
+.marq{padding:clamp(96px,10vw,160px) 0 40px;display:grid;gap:12px;overflow:hidden}
+.row{display:flex;gap:12px;will-change:transform;width:max-content}
+.tile{width:clamp(280px,29vw,420px);height:clamp(180px,19vw,270px);border-radius:18px;background:#141518;border:1px solid rgba(215,226,234,.1);padding:20px;display:flex;flex-direction:column;justify-content:space-between;flex:none;position:relative;overflow:hidden}
+.tile .t{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--mut);display:flex;justify-content:space-between;gap:8px}
+.tile .v{font-weight:800;font-size:clamp(28px,3vw,44px);color:#fff;line-height:1}
+.tile .v small{font-size:14px;font-weight:600;margin-left:8px}
+.tile svg{position:absolute;right:0;bottom:0;width:70%;height:55%;opacity:.9}
+/* обо мне */
+.about{min-height:100vh;position:relative;overflow-x:clip;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px clamp(20px,4vw,40px);gap:clamp(56px,7vw,96px)}
+.about .blk{display:flex;flex-direction:column;align-items:center;gap:clamp(40px,5vw,64px)}
+.big{font-weight:900;text-transform:uppercase;line-height:.95;letter-spacing:-.03em;font-size:clamp(3rem,11vw,150px)}
+.reveal{max-width:600px;font-weight:500;line-height:1.65;font-size:clamp(1rem,2vw,1.35rem)}
+.reveal span{opacity:.2;transition:opacity .2s}
+.deco{position:absolute;width:clamp(96px,14vw,210px)}
+.deco svg{width:100%;height:auto;display:block;filter:drop-shadow(0 20px 30px rgba(0,0,0,.6))}
+.d1{top:4%;left:3%}.d2{bottom:8%;left:8%;width:clamp(84px,12vw,180px)}.d3{top:4%;right:3%}.d4{bottom:8%;right:8%;width:clamp(100px,14vw,220px)}
+/* услуги */
+.serv{background:#fff;color:#0C0C0C;border-radius:clamp(40px,4vw,60px) clamp(40px,4vw,60px) 0 0;padding:clamp(80px,9vw,128px) clamp(20px,4vw,40px) clamp(120px,12vw,180px)}
+.serv .big{text-align:center;margin-bottom:clamp(56px,7vw,112px)}
+.list{max-width:1040px;margin:0 auto}
+.item{display:flex;gap:clamp(18px,4vw,56px);align-items:center;padding:clamp(28px,3vw,48px) 0;border-top:1px solid rgba(12,12,12,.15)}
+.item:last-child{border-bottom:1px solid rgba(12,12,12,.15)}
+.num{font-weight:900;font-size:clamp(3rem,9vw,130px);line-height:.9;letter-spacing:-.04em;flex:none;width:1.25em}
+.item h3{font-weight:600;text-transform:uppercase;font-size:clamp(1rem,2.2vw,2.1rem);margin-bottom:10px}
+.item p{font-weight:300;line-height:1.6;max-width:640px;font-size:clamp(.88rem,1.5vw,1.2rem);opacity:.65}
+/* кейсы */
+.proj{background:var(--bg);border-radius:clamp(40px,4vw,60px) clamp(40px,4vw,60px) 0 0;margin-top:clamp(-56px,-4vw,-40px);position:relative;z-index:10;padding:clamp(72px,8vw,120px) clamp(16px,3vw,40px) 40px}
+.proj .big{text-align:center;margin-bottom:40px}
+.stack{max-width:1240px;margin:0 auto}
+.slot{height:85vh;position:relative}
+.card{position:sticky;top:clamp(80px,9vw,128px);border-radius:clamp(36px,4vw,60px);border:2px solid var(--fg);background:var(--bg);padding:clamp(16px,2vw,32px);display:flex;flex-direction:column;gap:clamp(14px,2vw,24px);transform-origin:50% 0;will-change:transform}
+.ctop{display:flex;align-items:center;gap:clamp(12px,2vw,28px);flex-wrap:wrap}
+.ctop .num{color:var(--fg);width:auto;font-size:clamp(2.6rem,7vw,100px)}
+.ctop .meta{flex:1;min-width:160px}
+.ctop .meta span{display:block;text-transform:uppercase;letter-spacing:.12em;font-size:13px;color:var(--mut)}
+.ctop .meta b{display:block;font-weight:700;font-size:clamp(1.2rem,2.4vw,2.2rem);text-transform:uppercase;color:#fff}
+.ghost{border:2px solid var(--fg);border-radius:99px;padding:12px clamp(22px,2.5vw,36px);text-transform:uppercase;letter-spacing:.14em;font-weight:500;font-size:clamp(.78rem,1vw,1rem);transition:background .2s;white-space:nowrap}
+.ghost:hover{background:rgba(215,226,234,.1)}
+.cgrid{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,6fr);gap:clamp(10px,1.4vw,18px)}
+.ccol{display:grid;gap:clamp(10px,1.4vw,18px)}
+.pan{border-radius:clamp(28px,3.4vw,52px);background:#16171b;border:1px solid rgba(215,226,234,.1);padding:clamp(18px,2.2vw,32px);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;position:relative}
+.p1{height:clamp(130px,16vw,230px)}.p2{height:clamp(160px,22vw,340px)}
+.p3{height:calc(clamp(130px,16vw,230px) + clamp(160px,22vw,340px) + clamp(10px,1.4vw,18px))}
+.pan span{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--mut)}
+.pan b{font-weight:800;color:#fff;font-size:clamp(1.6rem,3.4vw,3.2rem);line-height:1}
+.pan .ba{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.pan .ba s{color:var(--mut);font-weight:600;font-size:clamp(1rem,1.8vw,1.6rem)}
+.pan svg.ch{position:absolute;left:0;right:0;bottom:0;width:100%;height:68%}
+.pan ul{list-style:none;display:grid;gap:8px;font-size:clamp(.82rem,1.1vw,1rem);color:var(--fg)}
+.pan li::before{content:'→ ';color:#B600A8}
+/* контакт */
+.contact{padding:clamp(100px,12vw,180px) clamp(20px,4vw,40px);text-align:center;display:flex;flex-direction:column;align-items:center;gap:32px}
+.contact p{max-width:520px;color:var(--mut);font-size:clamp(1rem,1.6vw,1.2rem);line-height:1.6}
+footer{padding:24px clamp(20px,4vw,40px) 40px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;color:var(--mut);font-size:13px;border-top:1px solid rgba(215,226,234,.1)}
+@media (max-width:639px){
+ .portrait{top:45%;bottom:auto;transform:translate(-50%,-50%);width:min(52vw,215px)}
+ .phone .ph-rows .ph-row:nth-child(3){display:none}
+ .phone{border-radius:36px;border-bottom:1.5px solid rgba(215,226,234,.25);aspect-ratio:9/15}
+ .hbot{flex-direction:column;align-items:flex-start}
+ .cgrid{grid-template-columns:minmax(0,1fr)}.p3{height:220px}
+ .item{align-items:flex-start}
+ .slot{height:auto;padding-bottom:24px}.card{position:relative;top:0}
+ .deco{opacity:.5}
+}
+@media (prefers-reduced-motion:reduce){.fade{opacity:1;transform:none;transition:none}.reveal span{opacity:1}*{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="demo">Демо-пример: имя, цифры и кейсы вымышлены — на вашем сайте будут ваши</div>
+<main>
+<section class="hero" id="top">
+ <nav class="fade" style="--fy:-20px"><a href="#about">Обо мне</a><a href="#services">Услуги</a><a href="#projects">Кейсы</a><a href="#contact">Контакт</a></nav>
+ <div class="hwrap"><h1 class="hh fade" id="hh" style="--dl:.15s;--fy:40px"><span id="hhs" style="display:inline-block">Привет, я Оля</span></h1></div>
+ <div class="hbot">
+  <p class="fade" style="--dl:.35s;--fy:20px">менеджер Wildberries и Ozon, который выводит магазины в стабильную прибыль</p>
+  <a class="cbtn fade" style="--dl:.5s;--fy:20px" href="#contact">Связаться</a>
+ </div>
+ <div class="portrait"><div class="fade" style="--dl:.6s;--fy:30px">
+  <div class="mag" id="mag">
+   <div class="phone" aria-label="Пример отчёта по продажам">
+    <div class="notch"></div>
+    <div class="ph-h"><span>Отчёт за неделю</span><span>WB</span></div>
+    <div class="ph-big">1 640 000 ₽<small>▲ +38% к прошлой неделе</small></div>
+    <div class="ph-chart"><svg viewBox="0 0 300 120" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B600A8" stop-opacity=".5"/><stop offset="1" stop-color="#B600A8" stop-opacity="0"/></linearGradient></defs><path d="M0 100 L40 92 L80 96 L120 74 L160 70 L200 48 L240 40 L300 14 L300 120 L0 120Z" fill="url(#pg)"/><path d="M0 100 L40 92 L80 96 L120 74 L160 70 L200 48 L240 40 L300 14" fill="none" stroke="#e05bd6" stroke-width="3" stroke-linejoin="round"/></svg></div>
+    <div class="ph-rows">
+     <div class="ph-row"><span>ДРР</span><b>8,4%</b></div>
+     <div class="ph-row"><span>Заказы</span><b>1 284</b></div>
+     <div class="ph-row"><span>Конверсия</span><b>11,2%</b></div>
+    </div>
+   </div>
+  </div>
+ </div></div>
+</section>
+
+<section class="marq" id="marq" aria-label="Метрики магазинов">
+ <div class="row" id="r1"></div>
+ <div class="row" id="r2"></div>
+</section>
+
+<section class="about" id="about">
+ <div class="deco d1 fade" style="--fx:-80px;--fy:0;--fd:.9s;--dl:.1s"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><linearGradient id="c1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd27a"/><stop offset="1" stop-color="#b8731b"/></linearGradient></defs><ellipse cx="100" cy="118" rx="74" ry="26" fill="#7a4a10"/><rect x="26" y="92" width="148" height="26" fill="#9a5f15"/><ellipse cx="100" cy="92" rx="74" ry="26" fill="url(#c1)"/><text x="100" y="102" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="34" fill="#7a4a10">₽</text></svg></div>
+ <div class="deco d2 fade" style="--fx:-80px;--fy:0;--fd:.9s;--dl:.25s"><svg viewBox="0 0 200 200" aria-hidden="true"><polygon points="100,30 170,65 100,100 30,65" fill="#d9a46a"/><polygon points="30,65 100,100 100,175 30,140" fill="#a8723c"/><polygon points="170,65 100,100 100,175 170,140" fill="#c18a50"/><polygon points="60,50 130,85 130,110 120,105 120,90 50,55" fill="#f1d3a8" opacity=".8"/></svg></div>
+ <div class="deco d3 fade" style="--fx:80px;--fy:0;--fd:.9s;--dl:.15s"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><linearGradient id="c3" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#7621B0"/><stop offset="1" stop-color="#e05bd6"/></linearGradient></defs><rect x="30" y="120" width="30" height="50" rx="6" fill="url(#c3)"/><rect x="75" y="90" width="30" height="80" rx="6" fill="url(#c3)"/><rect x="120" y="55" width="30" height="115" rx="6" fill="url(#c3)"/><path d="M30 105 L90 70 L120 82 L175 30" fill="none" stroke="#BBCCD7" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M152 28 L176 29 L175 53" fill="none" stroke="#BBCCD7" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+ <div class="deco d4 fade" style="--fx:80px;--fy:0;--fd:.9s;--dl:.3s"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><linearGradient id="c4" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#BE4C00"/><stop offset="1" stop-color="#7621B0"/></linearGradient></defs><path d="M40 70 L160 70 L148 160 Q146 172 134 172 L66 172 Q54 172 52 160Z" fill="url(#c4)"/><path d="M72 78 V60 Q72 32 100 32 Q128 32 128 60 V78" fill="none" stroke="#D7E2EA" stroke-width="9" stroke-linecap="round"/><circle cx="100" cy="122" r="18" fill="#fff" opacity=".9"/><path d="M92 122 l6 6 l11 -12" fill="none" stroke="#7621B0" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+ <div class="blk">
+  <h2 class="big hh fade" style="--fy:40px">Обо мне</h2>
+  <p class="reveal" id="reveal">Пять лет на маркетплейсах: веду кабинеты на Wildberries и Ozon, настраиваю рекламу, считаю юнит-экономику и вывожу товары в топ. Беру на себя всю операционку, чтобы вы занимались товаром, а не кабинетом. Каждую неделю вы видите цифры, а не обещания.</p>
+ </div>
+ <a class="cbtn fade" href="#contact">Обсудить магазин</a>
+</section>
+
+<section class="serv" id="services">
+ <h2 class="big fade" style="--fy:40px">Услуги</h2>
+ <div class="list" id="list"></div>
+</section>
+
+<section class="proj" id="projects">
+ <h2 class="big hh fade" style="--fy:40px">Кейсы</h2>
+ <div class="stack" id="stack"></div>
+</section>
+
+<section class="contact" id="contact">
+ <h2 class="big hh fade" style="--fy:40px">Начнём?</h2>
+ <p class="fade" style="--dl:.15s">Напишите в Telegram: пришлите ссылку на магазин — за 2–3 дня сделаю бесплатный аудит и покажу, где теряются деньги.</p>
+ <a class="cbtn fade" style="--dl:.3s" href="#">Написать в Telegram</a>
+</section>
+</main>
+<footer><span>© Оля · менеджер маркетплейсов (демо)</span><a href="#top">Наверх ↑</a></footer>
+
+<script>
+{
+const $=s=>document.querySelector(s),RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* плитки-метрики */
+const T=[['Выручка','6,8 млн ₽','+467%','up'],['ДРР','8%','было 24%','down'],['Заказы','×4,1','за 6 мес','up'],['Конверсия','11,2%','+5,4 п.п.','up'],['Позиция в поиске','ТОП-3','было 140','down'],['Маржа','32%','было 5%','up'],['Новый бренд','2,4 млн ₽','за 4 мес','up'],['Отзывы','4,9 ★','1 200+','up'],['Выкуп','91%','было 63%','up'],['Остатки','0 дней','без простоев','flat'],['Прибыль','+1,7 млн','за 2 мес','up'],
+ ['CTR карточки','6,1%','было 2,3%','up'],['Рекламный бюджет','−38%','тот же оборот','down'],['Ozon','7 → 20 млн','за 4 мес','up'],['Артикулы в плюс','42 из 45','было 19','up'],['Средний чек','+35%','кросс-продажи','up'],['Отчёт','каждую неделю','в Telegram','flat'],['Запуск','0 → 941 тыс.','за 1 мес','up'],['Возвраты','−12%','фото и размеры','down'],['Позиции','×3','по ключам','up'],['Сезон','30 млн','за декабрь','up']];
+function spark(kind,i){let p=[];for(let k=0;k<9;k++){const t=k/8;let y=kind==='down'?20+t*55+Math.sin(k*1.7+i)*6:kind==='flat'?50+Math.sin(k*1.3+i)*8:80-t*60+Math.sin(k*1.9+i)*7;p.push(`${t*300},${Math.max(5,Math.min(95,y))}`)}
+ const col=kind==='down'?'#7be0a5':kind==='flat'?'#BBCCD7':'#e05bd6';return `<svg viewBox="0 0 300 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="${p.join(' ')}" fill="none" stroke="${col}" stroke-width="3" stroke-linejoin="round"/><polygon points="0,100 ${p.join(' ')} 300,100" fill="${col}" opacity=".12"/></svg>`}
+const tile=(t,i)=>`<div class="tile"><div class="t"><span>${t[0]}</span><span>пример</span></div><div class="v">${t[1]}<small style="color:${t[3]==='down'?'#7be0a5':'#e9a7e4'}">${t[2]}</small></div>${spark(t[3],i)}</div>`;
+const a=T.slice(0,11),b=T.slice(11);
+$('#r1').innerHTML=[...a,...a,...a].map(tile).join('');$('#r2').innerHTML=[...b,...b,...b].map(tile).join('');
+const marq=$('#marq'),r1=$('#r1'),r2=$('#r2');
+function mq(){const top=marq.getBoundingClientRect().top+scrollY;const off=(scrollY-top+innerHeight)*.3;r1.style.transform=`translateX(${off-600}px)`;r2.style.transform=`translateX(${-(off-200)}px)`}
+/* услуги */
+const S=[['Аудит кабинета','Разбираю юнит-экономику каждого артикула, рекламу, SEO и конверсию. Показываю, где магазин теряет деньги, и даю план на 3 месяца.'],['Ведение магазина','Ежедневная работа в кабинете: реклама, цены, акции, остатки, поставки, отзывы. Отчёт с цифрами каждую неделю.'],['Реклама и ДРР','Перестраиваю рекламные кампании так, чтобы бюджет шёл в продажи, а не в показы. Снижаю ДРР без потери оборота.'],['SEO и карточки','Собираю ключевые запросы, переписываю описания и характеристики, готовлю ТЗ на инфографику, тестирую обложки.'],['Запуск с нуля','Анализ ниши и конкурентов, карточки, первые поставки и старт рекламы — от идеи до первых продаж.']];
+$('#list').innerHTML=S.map((s,i)=>`<div class="item fade" style="--dl:${i*.1}s"><div class="num">0${i+1}</div><div><h3>${s[0]}</h3><p>${s[1]}</p></div></div>`).join('');
+/* кейсы */
+const C=[{cat:'Товары для дома · WB',n:'Магазин посуды',k1:['Выручка в месяц','6,8 млн ₽','1,2 млн'],k2:['ДРР','8%','24%'],pts:[1.2,1.9,2.8,3.9,5.4,6.8],l:['Пересобрала SEO по 60 артикулам','Отключила рекламу в минус','Вывела 3 товара в топ']},
+ {cat:'Одежда · Ozon',n:'Женская одежда',k1:['Выручка в месяц','5,8 млн ₽','913 тыс.'],k2:['Выкуп','91%','63%'],pts:[.9,1.6,2.4,3.5,4.7,5.8],l:['Размерные сетки и фото «на модели»','Новые обложки по A/B-тестам','Рекламная стратегия под сезон']},
+ {cat:'Запуск · WB + Ozon',n:'Новый бренд косметики',k1:['Выручка за 4-й месяц','2,4 млн ₽','0 ₽'],k2:['Артикулов в плюсе','12 из 12','—'],pts:[0.05,.5,1.1,1.6,2,2.4],l:['Анализ ниши и цен','Карточки и ТЗ на инфографику','Старт рекламы с первого дня']}];
+function chart(v){const mx=Math.max(...v)*1.1,p=v.map((n,i)=>`${i*60},${100-n/mx*90}`).join(' ');return `<svg class="ch" viewBox="0 0 300 100" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="cg${v[5]}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B600A8" stop-opacity=".45"/><stop offset="1" stop-color="#B600A8" stop-opacity="0"/></linearGradient></defs><polygon points="0,100 ${p} 300,100" fill="url(#cg${v[5]})"/><polyline points="${p}" fill="none" stroke="#e05bd6" stroke-width="2.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg>`}
+$('#stack').innerHTML=C.map((c,i)=>`<div class="slot"><article class="card" style="top:calc(clamp(80px,9vw,128px) + ${i*28}px)">
+ <div class="ctop"><div class="num">0${i+1}</div><div class="meta"><span>${c.cat}</span><b>${c.n}</b></div><a class="ghost" href="#contact">Обсудить похожий</a></div>
+ <div class="cgrid"><div class="ccol">
+  <div class="pan p1"><span>${c.k2[0]}</span><div class="ba"><b>${c.k2[1]}</b><s>${c.k2[2]}</s></div></div>
+  <div class="pan p2"><span>Что сделала</span><ul>${c.l.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+ </div><div class="pan p3"><span>${c.k1[0]}</span><div class="ba"><b>${c.k1[1]}</b><s>было ${c.k1[2]}</s></div>${chart(c.pts)}</div></div>
+</article></div>`).join('');
+const cards=[...document.querySelectorAll('.card')];
+function stack(){if(innerWidth<640){cards.forEach(c=>c.style.transform='');return}
+ const n=cards.length;cards.forEach((c,i)=>{const slot=c.parentElement,r=slot.getBoundingClientRect();const p=Math.min(1,Math.max(0,-r.top/(r.height)));const target=1-(n-1-i)*.03;c.style.transform=`scale(${1-(1-target)*p})`})}
+/* текст по буквам */
+const rv=$('#reveal');rv.innerHTML=[...rv.textContent].map(ch=>`<span>${ch}</span>`).join('');const chars=[...rv.children];
+function reveal(){if(RM)return;const r=rv.getBoundingClientRect(),vh=innerHeight;const start=vh*.8,end=vh*.2;
+ const p=Math.min(1,Math.max(0,(start-r.top)/((start-end)+r.height)));const lit=p*chars.length;chars.forEach((c,i)=>{c.style.opacity=i<lit?1:.2})}
+/* заголовок по ширине */
+const hh=$('#hh'),hhs=$('#hhs');const meas=document.createElement('span');meas.style.cssText='position:absolute;left:-9999px;top:0;visibility:hidden;white-space:nowrap;font-weight:900;text-transform:uppercase;letter-spacing:-.03em;font-size:100px;font-family:Montserrat,system-ui,sans-serif';meas.textContent=hhs.textContent;document.body.appendChild(meas);
+function fit(){const vw=document.querySelector('.demo').clientWidth||innerWidth;const w=meas.getBoundingClientRect().width;hh.style.setProperty('--hs',Math.min(100*vw*.94/w,vw*.175)+'px')}
+document.fonts&&document.fonts.ready.then(fit);fit();
+/* магнит */
+const mag=$('#mag');if(!RM&&matchMedia('(pointer:fine)').matches){addEventListener('mousemove',e=>{const r=mag.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,pad=150;
+ const inside=e.clientX>r.left-pad&&e.clientX<r.right+pad&&e.clientY>r.top-pad&&e.clientY<r.bottom+pad;
+ if(inside){mag.style.transition='transform .3s ease-out';mag.style.transform=`translate3d(${(e.clientX-cx)/3}px,${(e.clientY-cy)/3}px,0)`}else{mag.style.transition='transform .6s ease-in-out';mag.style.transform='translate3d(0,0,0)'}})}
+/* появление */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'50px'});
+document.querySelectorAll('.fade').forEach(el=>io.observe(el));
+requestAnimationFrame(()=>requestAnimationFrame(()=>document.querySelectorAll('.hero .fade').forEach(el=>el.classList.add('in'))));
+let tick=false;function onScroll(){if(tick)return;tick=true;requestAnimationFrame(()=>{tick=false;mq();stack();reveal()})}
+addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',()=>{fit();onScroll()});onScroll();
+}
+</script>
+</body>
+</html>
